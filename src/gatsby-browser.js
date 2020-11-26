@@ -1,13 +1,20 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react'
 import createStore from './.tmp/createStore';
 import { DEFAULT_OPTIONS, SCRIPT_ELEMENT_ID } from './constants';
 
 export const wrapRootElement = ({ element }, pluginOptions = {}) => {
   const preloadedState = window[pluginOptions.windowKey ?? DEFAULT_OPTIONS.windowKey];
-  const store = createStore(preloadedState);
+  const { store, persistor } = createStore(preloadedState);
 
-  return <Provider store={store}>{element}</Provider>;
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        {element}
+      </PersistGate>
+    </Provider>
+  )
 };
 
 export const onInitialClientRender = (_, pluginOptions = {}) => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react'
 import serializeJavascript from 'serialize-javascript';
 import createStore from './.tmp/createStore';
 import { DEFAULT_OPTIONS, SCRIPT_ELEMENT_ID } from './constants';
@@ -7,10 +8,16 @@ import { DEFAULT_OPTIONS, SCRIPT_ELEMENT_ID } from './constants';
 const pageStores = new Map();
 
 export const wrapRootElement = ({ element, pathname }) => {
-  const store = createStore();
+  const { store, persistor } = createStore();
   pageStores.set(pathname, store);
 
-  return <Provider store={store}>{element}</Provider>;
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        {element}
+      </PersistGate>
+    </Provider>
+  )
 };
 
 export const onRenderBody = (

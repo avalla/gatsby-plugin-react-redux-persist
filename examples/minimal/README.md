@@ -1,4 +1,4 @@
-# Minimal example of `gatsby-plugin-react-redux` usage
+# Minimal example of `gatsby-plugin-react-redux-persist` usage
 
 ## Install dependencies
 
